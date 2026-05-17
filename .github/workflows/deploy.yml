@@ -115,7 +115,7 @@ jobs:
         run: |
           if [ "${{ job.status }}" == "success" ]; then
             echo "✅ Site déployé : https://prometude.com"
-            echo "ℹ️  Nginx hôte doit proxy vers http://127.0.0.1:8081"
+            echo "ℹ️  Dossier VPS: /opt/prometude-front — Nginx → http://127.0.0.1:8081"
           else
             echo "❌ Déploiement site échoué"
           fi

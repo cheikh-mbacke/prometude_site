@@ -3,17 +3,23 @@ set -euo pipefail
 
 IMAGE_TAG="${1:?Image tag required}"
 CLEAN_TAG=$(echo "$IMAGE_TAG" | head -n1 | tr -d '\n' | xargs)
-DEPLOY_DIR="/opt/prometude-site"
+DEPLOY_DIR="/opt/prometude-front"
 HOST_PORT=8081
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🚀 DÉPLOIEMENT PROMETUDE SITE"
+echo "🚀 DÉPLOIEMENT PROMETUDE FRONT"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "📦 Image: $CLEAN_TAG"
 echo "📂 Dossier: $DEPLOY_DIR"
 echo ""
 
-mkdir -p "$DEPLOY_DIR"
+if [ ! -d "$DEPLOY_DIR" ]; then
+  echo "❌ Répertoire absent: $DEPLOY_DIR"
+  echo "   Créez-le une fois sur le VPS :"
+  echo "   sudo mkdir -p $DEPLOY_DIR && sudo chown \$USER:\$USER $DEPLOY_DIR"
+  exit 1
+fi
+
 cd "$DEPLOY_DIR"
 
 cp /tmp/docker-compose.prod.yml "$DEPLOY_DIR/docker-compose.prod.yml"
