@@ -1,0 +1,15 @@
+# Production VPS — reverse proxy Nginx hôte :
+#   prometude.com / www → 127.0.0.1:8081
+services:
+  site:
+    image: ghcr.io/cheikh-mbacke/prometude-site:latest
+    container_name: prometude-site-prod
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
